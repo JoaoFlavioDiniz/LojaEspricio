@@ -7,7 +7,7 @@ const config = {
     password: "123456789",
     server: "localhost",
     database: "LojaEspricio",
-    options: {
+    options: { //para nao exibir erro de certificado,...
         encrypt: true,
         trustServerCertificate: true,
     }

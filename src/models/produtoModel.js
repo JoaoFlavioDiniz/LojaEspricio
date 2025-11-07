@@ -12,7 +12,7 @@ const produtoModel = {
      */
 
 
-
+//fazeer uma busca
     buscarTodos: async () => {
         try {
             const pool = await getConnection();
@@ -27,6 +27,36 @@ const produtoModel = {
             console.error("Erro ao buscar o produto:", error);
             throw error; // reverberar o erro para a funcao que o chamar.
         }
+    },
+
+    /**
+     * 
+     * @async
+     * @function inserirProduto
+     * @param {string} nomeProduto 
+     * @param {number} precoProduto 
+     * @returns {promises<void>} //nao reotorna nada apenas executa a insercao
+     * @throws // mostra no console e propaga o erro caso a funcao falhe
+     */
+    inserirProduto:async (nomeProduto, precoProduto) => {
+
+        //inserir dados no Produtos
+        try {
+            const pool = await getConnection();
+
+            const querySQL = `INSERT INTO Produtos (nomeProduto, precoProduto)
+            VALUES (@nomeProduto, @precoProduto)
+            `
+              await pool.request()
+                .input("nomeProduto", sql.VarChar(100), nomeProduto)
+                .input("precoProduto", sql.Decimal(10,2), precoProduto)
+                .query(querySQL);
+
+        } catch (error) {
+             console.error("Erro ao inserir o produto:", error);
+            throw error; //
+        }
+        
     }
 };
 
