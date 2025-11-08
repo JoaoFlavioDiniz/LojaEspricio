@@ -29,6 +29,28 @@ const produtoModel = {
         }
     },
 
+    buscarUm: async (idProduto) => {
+        try {
+            const pool = await getConnection(); //evitar sql injection @idProduto
+            const querySQL = `
+            SELECT * FROM Produtos 
+            WHERE idProduto = @idProduto 
+            `;
+            
+            const result = await pool.request()
+            .input(`idProduto`, sql.UniqueIdentifier, idProduto)
+            .query(querySQL);
+
+        return result.recordset;
+
+        } catch (error) {
+            console.error("Erro ao buscar o produto:", error);
+            throw error; // reverberar o erro para a funcao que o chamar.
+            
+        }
+        
+    },
+
     /**
      * 
      * @async
