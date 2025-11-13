@@ -28,18 +28,15 @@ const clienteController = {
                 }
 
                 const cliente = await clienteModel.buscarUm(idCliente);
-
                 return res.status(200).json(cliente);
             }
 
             const clientes = await clienteModel.buscarTodos();
-
             res.status(200).json(clientes);
 
         } catch (error) {
             console.error('Erro ao listar o cliente:', error);
-            res.status(500).json({ erro: 'Erro ao localizar o cliente.' });
-
+            res.status(500).json({ erro: 'Erro interno ao localizar o cliente.' });
         }
 
     },
@@ -63,15 +60,19 @@ const clienteController = {
      * }
      */
 
-
     inserirCliente: async (req, res) => {
-
 
         try {
             const { nomeCliente, cpfCliente } = req.body;
-            
-            if (nomeCliente == undefined || cpfCliente == undefined || nomeCliente.trim() == "" || isNaN(cpfCliente)) {
+
+            if (nomeCliente == undefined || cpfCliente == undefined || nomeCliente.trim() == "") {
                 return res.status(400).json({ erro: "Campos obrigatorios nao preenchido" })
+            }
+
+            const cliente = await clienteModel.buscarCPF(cpfCliente);
+// se o cpf for maior que zero, ele busca na variavel cpfCliente se e o mesmo cpf
+            if (cliente.length > 0) {
+                return res.status(409).json({ erro: "CPF ja esta cadastrado" })   //409 recurso existente neste caso o cpf
             }
 
             await clienteModel.inserirCliente(nomeCliente, cpfCliente);
@@ -79,12 +80,10 @@ const clienteController = {
             res.status(201).json({ message: " Cliente cadastrado com sucesso!" });
 
         } catch (error) {
-            console.error('Erro ao cadastrar o  cliente:', error);
-            res.status(500).json({ erro: 'Erro ao cadastrar o cliente.' });
-
+            console.error('Erro ao cadastrar o sr cliente:', error);
+            res.status(500).json({ erro: 'Erro ao cadastrar o sr cliente.' });
         }
     }
-
 };
 
 module.exports = { clienteController };

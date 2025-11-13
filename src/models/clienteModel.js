@@ -1,5 +1,6 @@
 const { promises } = require("dns");
 const { sql, getConnection } = require("../config/db");
+const { query } = require("mssql");
 
 const clienteModel = {
     /**
@@ -27,26 +28,44 @@ const clienteModel = {
         }
     },
 
-     buscarUm: async (idCliente) => {
+    buscarUm: async (idCliente) => {
         try {
             const pool = await getConnection(); //evitar sql injection @idProduto
             const querySQL = `
             SELECT * FROM Clientes 
             WHERE idCliente = @idCliente 
             `;
-            
-            const result = await pool.request()
-            .input(`idCliente`, sql.UniqueIdentifier, idCliente)
-            .query(querySQL);
 
-        return result.recordset;
+            const result = await pool.request()
+                .input(`idCliente`, sql.UniqueIdentifier, idCliente)
+                .query(querySQL);
+
+            return result.recordset;
 
         } catch (error) {
             console.error("Erro ao buscar o cliente:", error);
             throw error; // reverberar o erro para a funcao que o chamar.
-            
         }
-        
+
+    },
+
+    buscarCPF: async (cpfCliente) => {
+
+        try {
+            const pool = await getConnection();//evitar sql injection @cpfCliente
+            const querySQL = `
+            SELECT * FROM Clientes
+            WHERE cpfCliente = @cpfCliente            
+            `;
+            const result = await pool.request()
+                .input(`cpfCliente`, sql.Char(11), cpfCliente)
+            .query(querySQL);
+
+            return result.recordset;
+        } catch (error) {
+            console.error("Erro ao buscar o cliente:", error);
+            throw error; // reverberar o erro para a funcao que o chamar.
+        }
     },
 
     /**
@@ -82,4 +101,4 @@ const clienteModel = {
 
 };
 
-module.exports = {clienteModel};
+module.exports = { clienteModel };
