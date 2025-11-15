@@ -111,14 +111,14 @@ const produtoModel = {
             const querySQL = `
             UPDATE Produtos 
             SET nomeProduto = @nomeProduto,
-                precoProduto  = @precoProduto
-                        WHERE = @idProduto 
+                precoProduto = @precoProduto
+            WHERE idProduto = @idProduto 
             `;
 
             await pool.request()
-            .input('idProduto', sql.UniqueIdentifier, idProduto)
             .input('nomeProduto', sql.VarChar(100), nomeProduto)
-            .input('precoProduto', sql.Decimal(10,2))
+            .input('precoProduto', sql.Decimal(10,2), precoProduto)
+            .input('idProduto', sql.UniqueIdentifier, idProduto)
             .query(querySQL);
             
         } catch (error) {
@@ -127,7 +127,30 @@ const produtoModel = {
             
         }
         
+    },
+
+    deletarProduto: async (idProduto) => {
+
+        try {
+
+            const pool = await getConnection();
+
+            const querySQL = `
+            DELETE from Produtos
+                WHERE idProduto = @idProduto            
+            `;
+
+            await pool.request()
+                .input('idProduto', sql.UniqueIdentifier, idProduto)
+                .query(querySQL);
+            
+        } catch (error) {            
+            console.error("Erro ao deletar o produto", error);
+            throw error;
+        }
+        
     }
+
 };
 
 module.exports = {produtoModel};

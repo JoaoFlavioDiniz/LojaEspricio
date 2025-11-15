@@ -7,4 +7,6 @@ router.get("/clientes", clienteController.listarCliente);
 
 router.post("/clientes", clienteController.inserirCliente);
 
+router.put("/clientes/:idCliente", clienteController.atualizarCliente);
+
 module.exports = {clienteRoutes: router};

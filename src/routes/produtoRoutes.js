@@ -9,5 +9,7 @@ router.post("/produtos", produtoController.criaProduto);
 
 router.put("/produtos/:idProduto", produtoController.atualizarProduto);
 
+router.delete("/produtos/:idProduto", produtoController.deletarProduto);
+
 module.exports = {produtoRoutes: router};
 

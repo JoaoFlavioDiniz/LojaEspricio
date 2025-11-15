@@ -1,0 +1,228 @@
+type: collection.insomnia.rest/5.0
+name: Loja Espricio
+meta:
+  id: wrk_bd979b553fdd4c31ae3bada4cbab956b
+  created: 1762467083592
+  modified: 1762467083592
+  description: ""
+collection:
+  - name: Produtos
+    meta:
+      id: fld_710ac67a733b490a967b34e51ce62fb7
+      created: 1762467107116
+      modified: 1762467107116
+      sortKey: -1762467107116
+      description: ""
+    children:
+      - url: http://localhost:8081/produtos
+        name: Listar Produtos
+        meta:
+          id: req_e50ba942641847bc897d0e5187b8b3e3
+          created: 1762467374419
+          modified: 1763161755972
+          isPrivate: false
+          description: ""
+          sortKey: -1762467374419
+        method: GET
+        parameters:
+          - id: pair_0d13393e0d4842eb9d1af32e224412fc
+            name: idProduto
+            value: DDD633AB-1FEE-4958-8A74-22B4399C1E32
+            description: ""
+            disabled: true
+          - id: pair_e7bd4f81d2264ca49f5466c01359592e
+            name: nomeProduto
+            value: Camisa Azul
+            description: ""
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/12.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/produtos
+        name: Criar Produto
+        meta:
+          id: req_f19a398388a84ba8b498b6bd00b0f0ac
+          created: 1762473429098
+          modified: 1763080533046
+          isPrivate: false
+          description: ""
+          sortKey: -1762473429098
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+            	"nomeProduto": "Camisa Azul",
+            	"precoProduto": 110.90
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/produtos/DDD633AB-1FEE-4958-8A74-22B4399C1E32
+        name: Atualizar Produto
+        meta:
+          id: req_1c14470dee174e708ebc5f5b8f2a682f
+          created: 1763079933418
+          modified: 1763160596888
+          isPrivate: false
+          description: ""
+          sortKey: -1763079933418
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nomeProduto": "Camiseta",
+            		"precoProduto": 9
+            }
+        parameters:
+          - id: pair_3375256c10784ae1acff17917cfb59b9
+            name: idProduto
+            value: 1CC7F4AE-2D38-49A7-AFB6-9C73BC1523B2
+            description: ""
+            disabled: true
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/produtos/DDD633AB-1FEE-4958-8A74-22B4399C1E32
+        name: Deletar Produto
+        meta:
+          id: req_82c2d94ef3204711a3c754daa490d445
+          created: 1763160607579
+          modified: 1763161295846
+          isPrivate: false
+          description: ""
+          sortKey: -1763035285974.5
+        method: DELETE
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nomeProduto": "Camiseta",
+            		"precoProduto": 9
+            }
+        parameters:
+          - id: pair_3375256c10784ae1acff17917cfb59b9
+            name: idProduto
+            value: DDD633AB-1FEE-4958-8A74-22B4399C1E32
+            description: ""
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: "Clientes "
+    meta:
+      id: fld_43c05123ae564736aa9d11641fb64f77
+      created: 1762990604898
+      modified: 1762990604898
+      sortKey: -1762990604898
+      description: ""
+    children:
+      - url: http://localhost:8081/clientes
+        name: Listar Cliente
+        meta:
+          id: req_eac731056fd6480894c6eb401e7c449e
+          created: 1762562377704
+          modified: 1762990642407
+          isPrivate: false
+          description: ""
+          sortKey: -1762990638531
+        method: GET
+        parameters:
+          - id: pair_80065569d9084e1dacd1a037315a8159
+            name: nomeCliente
+            value: Flavio
+            description: ""
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/12.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/clientes
+        name: Inserir Cliente
+        meta:
+          id: req_be0c3a283e1541178d0dcd20b67077f5
+          created: 1762562445180
+          modified: 1763068700995
+          isPrivate: false
+          description: ""
+          sortKey: -1762990638431
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+            	"nomeCliente": "Maycom",
+            	"cpfCliente": "11023456783"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_10610ce4a0766f85b554badc1077ef604796064d
+    created: 1762467083598
+    modified: 1762467083598
+environments:
+  name: Base Environment
+  meta:
+    id: env_10610ce4a0766f85b554badc1077ef604796064d
+    created: 1762467083596
+    modified: 1762467083596
+    isPrivate: false

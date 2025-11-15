@@ -83,7 +83,41 @@ const clienteController = {
             console.error('Erro ao cadastrar o sr cliente:', error);
             res.status(500).json({ erro: 'Erro ao cadastrar o sr cliente.' });
         }
+    },
+
+    atualizarCliente: async (req, res) => {
+
+        try {
+            const { idCliente } = req.params;
+            const { nomeCliente, cpfCliente } = req.body;
+
+            if (idCliente.length != 36) {
+                return res.status(400).json({ erro: 'id do cliente invalido' });
+            }
+
+            const cliente = await clienteModel.buscarUm(idCliente);
+
+            if (!cliente || cliente.length !== 1) {
+                return res.status(401).json({ erro: 'Cliente nao encontrado!' });
+            }
+
+            const clienteAtual = cliente[0];
+
+            const nomeAtualizado = nomeCliente ?? clienteAtual.nomeCliente;
+            const cpfAtualizado = cpfCliente ?? clienteAtual.cpfCliente;
+
+            await clienteModel.atualizarCliente(idCliente, nomeAtualizado, cpfAtualizado);
+
+            res.status(200).json({ mensagem: 'Cliente atualizado com sucesso!' });
+
+        } catch (error) {
+            console.error('Erro ao atualizar o cliente:', error);
+            res.status(500).json({ erro: 'Erro ao atualizar o cliente.' });
+        }
+
     }
+
+
 };
 
 module.exports = { clienteController };

@@ -20,13 +20,13 @@ const produtoController = {
      */
 
     listarProdutos: async (req, res) => {
-        
+
         try {
             const { idProduto } = req.query;
 
-            if (idProduto){
-                if(idProduto.length != 36){
-                    return res.status(400).json({erro:"id do produto invalido!"});
+            if (idProduto) {
+                if (idProduto.length != 36) {
+                    return res.status(400).json({ erro: "id do produto invalido!" });
 
 
                 }
@@ -72,7 +72,7 @@ const produtoController = {
 
         try {
             const { nomeProduto, precoProduto } = req.body;
-            
+
             if (nomeProduto == undefined || precoProduto == undefined || nomeProduto.trim() == "" || isNaN(precoProduto)) {
                 return res.status(400).json({ erro: "Campos obrigatorios nao preenchido" })
             }
@@ -91,17 +91,17 @@ const produtoController = {
     atualizarProduto: async (req, res) => {
 
         try {
-            const {idProduto} = req.params;
-            const {nomeProduto, precoProduto} = req.params;
+            const { idProduto } = req.params;
+            const { nomeProduto, precoProduto } = req.body;
 
             if (idProduto.length != 36) {
-                return res.status(400).json({erro: 'id do produto invalido'});                
+                return res.status(400).json({ erro: 'id do produto invalido' });
             }
 
             const produto = await produtoModel.buscarUm(idProduto);
 
             if (!produto || produto.length !== 1) {
-                return res.status(401).json({erro: 'produto nao encontrado!'});                
+                return res.status(401).json({ erro: 'produto nao encontrado!' });
             }
 
             const produtoAtual = produto[0];
@@ -109,15 +109,42 @@ const produtoController = {
             const nomeAtualizado = nomeProduto ?? produtoAtual.nomeProduto;
             const precoAtualizado = precoProduto ?? produtoAtual.precoProduto;
 
-            await produtoModel.atualizarProduto(idProduto, nomeAtualizado, precoAtualizado)
+            await produtoModel.atualizarProduto(idProduto, nomeAtualizado, precoAtualizado);
 
-            res.status(200).json({mensagem: 'produto atualizado com sucesso!'});
-            
+            res.status(200).json({ mensagem: 'produto atualizado com sucesso!' });
+
         } catch (error) {
-             console.error('Erro ao atualizar o produto:', error);
-            res.status(500).json({ erro: 'Erro ao atualizar o produto.' });            
+            console.error('Erro ao atualizar o produto:', error);
+            res.status(500).json({ erro: 'Erro ao atualizar o produto.' });
         }
-        
+
+    },
+
+    deletarProduto: async (req, res) => {
+
+        try {
+
+            const { idProduto } = req.params;
+
+            if (idProduto.length != 36) {
+                return res.status(400).json({ erro: 'id do produto invalido' });
+            }
+
+            const produto = await produtoModel.buscarUm(idProduto);
+
+            if (!produto || produto.length !== 1) {
+                return res.status(401).json({ erro: 'produto nao encontrado!' });
+            }
+            
+            await produtoModel.deletarProduto(idProduto);
+
+             res.status(200).json({ mensagem: 'produto deletado com sucesso!' });
+
+        } catch (error) {
+            console.error('Erro ao deletar o produto:', error);
+            res.status(500).json({ erro: 'Erro ao deletar o produto.' });
+        }
+
     }
 
 }

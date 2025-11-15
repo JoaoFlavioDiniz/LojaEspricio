@@ -97,6 +97,31 @@ const clienteModel = {
             throw error; //
         }
 
+    },
+
+    atualizarCliente: async (idCliente, nomeCliente, cpfCliente) => {
+
+        try {
+            const pool = await getConnection();
+// update e delete nunca se faz sem WHERE
+            const querySQL = `
+            UPDATE Clientes 
+            SET nomeCliente = @nomeCliente,
+                cpfCliente = @cpfCliente
+            WHERE idCliente = @idCliente 
+            `;
+
+            await pool.request()
+            .input('nomeCliente', sql.VarChar(100), nomeCliente)
+            .input('cpfCliente', sql.Char(11), cpfCliente)
+            .input('idCliente', sql.UniqueIdentifier, idCliente)
+            .query(querySQL);
+            
+        } catch (error) {
+            console.error("Erro ao atualizar o Cliente", error);
+            throw error;            
+        }
+        
     }
 
 };
