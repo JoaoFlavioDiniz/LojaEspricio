@@ -63,9 +63,10 @@ const clienteController = {
     inserirCliente: async (req, res) => {
 
         try {
-            const { nomeCliente, cpfCliente } = req.body;
+            const { nomeCliente, cpfCliente, emailCliente, senhaCliente } = req.body;
 
-            if (nomeCliente == undefined || cpfCliente == undefined || nomeCliente.trim() == "") {
+            if (nomeCliente == undefined || cpfCliente == undefined || nomeCliente.trim() == "" || emailCliente == undefined || emailCliente.trim() == "" || 
+             senhaCliente == undefined || senhaCliente ) {
                 return res.status(400).json({ erro: "Campos obrigatorios nao preenchido" })
             }
 
@@ -75,7 +76,7 @@ const clienteController = {
                 return res.status(409).json({ erro: "CPF ja esta cadastrado" })   //409 recurso existente neste caso o cpf
             }
 
-            await clienteModel.inserirCliente(nomeCliente, cpfCliente);
+            await clienteModel.inserirCliente(nomeCliente, cpfCliente, emailCliente, senhaCliente);
 
             res.status(201).json({ message: " Cliente cadastrado com sucesso!" });
 
@@ -89,7 +90,7 @@ const clienteController = {
 
         try {
             const { idCliente } = req.params;
-            const { nomeCliente, cpfCliente } = req.body;
+            const { nomeCliente, cpfCliente, emailCliente, senhaCliente } = req.body;
 
             if (idCliente.length != 36) {
                 return res.status(400).json({ erro: 'id do cliente invalido' });
@@ -105,14 +106,43 @@ const clienteController = {
 
             const nomeAtualizado = nomeCliente ?? clienteAtual.nomeCliente;
             const cpfAtualizado = cpfCliente ?? clienteAtual.cpfCliente;
+            const emailAtualizado = emailCliente ?? clienteAtual.emailCliente;
+            const senhaAtualizada = senhaCliente ?? clienteAtual.senhaCliente;
 
-            await clienteModel.atualizarCliente(idCliente, nomeAtualizado, cpfAtualizado);
+            await clienteModel.atualizarCliente(idCliente, nomeAtualizado, cpfAtualizado, emailAtualizado, senhaAtualizada);
 
             res.status(200).json({ mensagem: 'Cliente atualizado com sucesso!' });
 
         } catch (error) {
             console.error('Erro ao atualizar o cliente:', error);
             res.status(500).json({ erro: 'Erro ao atualizar o cliente.' });
+        }
+
+    },
+
+    deletarCliente: async (req, res) => {
+
+        try {
+
+            const { idCliente } = req.params;
+
+            if (idCliente.length != 36) {
+                return res.status(400).json({ erro: 'id do cliente é invalido' });
+            }
+
+            const cliente = await clienteModel.buscarUm(idCliente);
+
+            if (!cliente || cliente.length !== 1) {
+                return res.status(401).json({ erro: 'cliente nao encontrado!' });
+            }
+            
+            await clienteModel.deletarCliente(idCliente);
+
+             res.status(200).json({ mensagem: 'cliente deletado com sucesso!' });
+
+        } catch (error) {
+            console.error('Erro ao deletar o cliente:', error);
+            res.status(500).json({ erro: 'Erro ao deletar o cliente.' });
         }
 
     }
