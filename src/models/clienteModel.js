@@ -115,7 +115,7 @@ const clienteModel = {
             SET nomeCliente = @nomeCliente,
                 cpfCliente = @cpfCliente,
                 emailCliente = @emailCliente,
-                senhaCliente = @senhaCliente,
+                senhaCliente = @senhaCliente
             WHERE idCliente = @idCliente 
             `;
 

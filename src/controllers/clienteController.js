@@ -4,6 +4,7 @@ const { clienteModel } = require("../models/clienteModel");
 const { error } = require("console");
 const { default: Message } = require("tedious/lib/message");
 
+const bcrypt = require('bcrypt'); 
 
 const clienteController = {
 
@@ -24,7 +25,6 @@ const clienteController = {
             if (idCliente) {
                 if (idCliente.length != 36) {
                     return res.status(400).json({ erro: "id do cliente invalido!" });
-
                 }
 
                 const cliente = await clienteModel.buscarUm(idCliente);
@@ -66,7 +66,7 @@ const clienteController = {
             const { nomeCliente, cpfCliente, emailCliente, senhaCliente } = req.body;
 
             if (nomeCliente == undefined || cpfCliente == undefined || nomeCliente.trim() == "" || emailCliente == undefined || emailCliente.trim() == "" || 
-             senhaCliente == undefined || senhaCliente ) {
+             senhaCliente == undefined || senhaCliente.trim() == "" ) {
                 return res.status(400).json({ erro: "Campos obrigatorios nao preenchido" })
             }
 
@@ -76,7 +76,11 @@ const clienteController = {
                 return res.status(409).json({ erro: "CPF ja esta cadastrado" })   //409 recurso existente neste caso o cpf
             }
 
-            await clienteModel.inserirCliente(nomeCliente, cpfCliente, emailCliente, senhaCliente);
+            // 3. CRIPTOGRAFIA DA SENHA (HASH)
+                        const saltRounds = 10; // Custo do processamento (segurança padrão)
+                        const hashSenha = await bcrypt.hash(senhaCliente, saltRounds);
+
+            await clienteModel.inserirCliente(nomeCliente, cpfCliente, emailCliente, hashSenha);// guadar o hash e n'ao a senha
 
             res.status(201).json({ message: " Cliente cadastrado com sucesso!" });
 
@@ -96,6 +100,7 @@ const clienteController = {
                 return res.status(400).json({ erro: 'id do cliente invalido' });
             }
 
+       
             const cliente = await clienteModel.buscarUm(idCliente);
 
             if (!cliente || cliente.length !== 1) {
@@ -109,7 +114,11 @@ const clienteController = {
             const emailAtualizado = emailCliente ?? clienteAtual.emailCliente;
             const senhaAtualizada = senhaCliente ?? clienteAtual.senhaCliente;
 
-            await clienteModel.atualizarCliente(idCliente, nomeAtualizado, cpfAtualizado, emailAtualizado, senhaAtualizada);
+                  // 3. CRIPTOGRAFIA DA SENHA (HASH)
+                        const saltRounds = 10; // Custo do processamento (segurança padrão)
+                        const hashSenha = await bcrypt.hash(senhaCliente, saltRounds);
+
+            await clienteModel.atualizarCliente(idCliente, nomeAtualizado, cpfAtualizado, emailAtualizado, hashSenha);
 
             res.status(200).json({ mensagem: 'Cliente atualizado com sucesso!' });
 
@@ -146,7 +155,6 @@ const clienteController = {
         }
 
     }
-
 
 };
 
