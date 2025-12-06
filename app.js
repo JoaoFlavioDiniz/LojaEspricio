@@ -1,8 +1,12 @@
 const express = require("express");
 const app = express();
+
+require('dotenv').config(); //fazer injecao de dependencia
+
 const { produtoRoutes } = require("./src/routes/produtoRoutes");
 const { clienteRoutes } = require("./src/routes/clienteRoutes");
-const PORT = 8081;
+
+const PORT = process.env.PORT; //SUBSTITUIR A PORTA 8081...E;LA ESTA DECLARADA NO .ENV
 
 app.use(express.json());
 app.use('/', produtoRoutes);

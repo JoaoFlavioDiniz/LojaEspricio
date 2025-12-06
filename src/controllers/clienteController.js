@@ -80,7 +80,7 @@ const clienteController = {
                         const saltRounds = 10; // Custo do processamento (segurança padrão)
                         const hashSenha = await bcrypt.hash(senhaCliente, saltRounds);
 
-            await clienteModel.inserirCliente(nomeCliente, cpfCliente, emailCliente, hashSenha);// guadar o hash e n'ao a senha
+            await clienteModel.inserirCliente(nomeCliente, cpfCliente, emailCliente, hashSenha);// guardar o hash e nao a senha
 
             res.status(201).json({ message: " Cliente cadastrado com sucesso!" });
 

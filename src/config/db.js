@@ -3,10 +3,10 @@ const { promises } = require("dns");
 const sql = require ("mssql");
 //contante de configuracao do banco de dados
 const config = {
-    user: "sa",
-    password: "123456789",
-    server: "localhost",
-    database: "LojaEspricio",
+    user: process.env.USER_DB,
+    password: process.env.PASSWORD_DB,
+    server: process.env.SERVER_DB,
+    database: process.env.NAME_DB,
     options: { //para nao exibir erro de certificado,...
         encrypt: true,
         trustServerCertificate: true,
@@ -34,14 +34,15 @@ async function getConnection() {
     }
     
 };
-/*
+
+//testar o banco de dados ao iniciar
 (async () => {
     const pool = await getConnection();
+if(pool){
 
-    const result = await pool.request().query("SELECT * FROM Produtos");
-
-    console.log(result.recordset);
+    console.log("conexao com banco de dados estabelecida com sucesso");
+}
     
-})()*/
+})();
 
 module.exports = {sql, getConnection};
