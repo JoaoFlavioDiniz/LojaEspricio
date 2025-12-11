@@ -1,6 +1,5 @@
 const { promises } = require("dns");
 const { sql, getConnection } = require("../config/db");
-const { query } = require("mssql");
 
 const bcrypt = require("bcrypt");
 
@@ -68,6 +67,27 @@ const clienteModel = {
             console.error("Erro ao buscar o cliente:", error);
             throw error; // reverberar o erro para a funcao que o chamar.
         }
+    },
+
+    buscarEmailOrCPF:async (cpfCliente, emailCliente) => {
+        try {
+            const pool = await getConnection();
+
+            let querySQL = " SELECT * FROM Clientes WHERE cpfCliente = @cpfCliente OR emailCliente = @emailCliente";
+
+            const result = await pool.request()
+            .input("cpfCliente", sql.Char(11), cpfCliente)
+            .input("emailCliente", sql.VarChar(200), emailCliente)
+            .query(querySQL);
+
+        return result.recordset;
+            
+        } catch (error) {
+            console.error("Erro ao buscar o cliente", error);
+            throw error;
+            
+        }
+        
     },
 
     /**

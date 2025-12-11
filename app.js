@@ -8,7 +8,10 @@ const { clienteRoutes } = require("./src/routes/clienteRoutes");
 
 const PORT = process.env.PORT; //SUBSTITUIR A PORTA 8081...E;LA ESTA DECLARADA NO .ENV
 
+const cookieParser = require("cookie-parser");
+
 app.use(express.json());
+app.use(cookieParser());
 app.use('/', produtoRoutes);
 app.use('/', clienteRoutes);
 
