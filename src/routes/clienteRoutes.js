@@ -8,6 +8,8 @@ const {verify} = require("../middlewares/authMiddleware");
 
 router.post("/clientes/login", authController.clienteLogin);
 
+router.post("/logout", authController.logout);
+
 router.get("/clientes", verify.cliente, clienteController.listarCliente);
 
 router.post("/clientes", clienteController.inserirCliente);

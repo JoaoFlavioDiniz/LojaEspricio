@@ -57,6 +57,24 @@ const authController = {
 
         }
 
+    },
+
+    logout: async (req, res) => {
+        try {
+            res.clearCookie("token", {
+                 httpOnly: true,
+                secure: false,
+                sameSite: "strict"
+            });
+
+            res.status(200).json({message: "Logout realizado com sucesso!"});
+
+        } catch (error) {
+            
+            console.error("Id expirado ou invalido!", error)
+            return res.status(500).json({erro: "Erro interno no servidor ao realizar o logout"});
+        }
+        
     }
 
 };
