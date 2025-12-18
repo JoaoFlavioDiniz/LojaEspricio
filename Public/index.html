@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciamento de Clientes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="auth-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="email" id="login-email" placeholder="Email ou CPF" required>
+            <input type="password" id="login-senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <div id="main-content" style="display:none;">
+        <header>
+            <h1>Painel do Cliente</h1>
+            <button id="btn-logout">Sair</button>
+        </header>
+
+        <section>
+            <h2>Novo Cliente / Editar</h2>
+            <form id="cliente-form">
+                <input type="hidden" id="cliente-id">
+                <input type="text" id="nome" placeholder="Nome Completo" required>
+                <input type="text" id="cpf" placeholder="CPF (apenas números)" required maxlength="11">
+                <input type="email" id="email" placeholder="E-mail" required>
+                <input type="password" id="senha" placeholder="Senha">
+                <button type="submit" id="btn-salvar">Salvar Cliente</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Clientes Cadastrados</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Email</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-clientes"></tbody>
+            </table>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -14,6 +14,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/', produtoRoutes);
 app.use('/', clienteRoutes);
+// ... outras importações
+app.use(express.static('public')); // Serve a pasta 'public'
+app.use(express.json());
+// ... resto do código
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
